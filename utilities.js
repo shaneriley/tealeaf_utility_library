@@ -61,16 +61,18 @@ Object methods to create:
         var sampled = [],
             copy = element.slice(),
             get = function() {
-              var idx = ~~(Math.random() * element.length),
+              var idx = ~~(Math.random() * copy.length),
                   el = copy[idx];
-              copy = copy.slice(0, idx).concat(copy.slice(idx));
+              copy.splice(idx, 1);
               return el;
             };
 
         if (!qty) { return get(); }
         while(qty) {
           sampled.push(get());
+          qty--;
         }
+        return sampled;
       }
     };
 

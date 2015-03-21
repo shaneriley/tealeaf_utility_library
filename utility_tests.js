@@ -46,3 +46,5 @@ test("lastIndexOf returns last index of supplied value", _([1, 1, 1]).lastIndexO
 
 // _.sample
 test("sample is defined", typeof _().sample === "function");
+test("sample returns a single element when no argument supplied", _([1]).sample() === 1);
+test("sample returns multiple, non-repetitive elements when a numeric argument supplied", _([1, 2, 3]).sample(3).length === 3);
