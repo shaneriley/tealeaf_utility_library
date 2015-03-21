@@ -27,6 +27,29 @@ Object methods to create:
 */
 
 (function() {
+  var findObjs = function(element, props, multiple) {
+    var match = multiple ? [] : undefined;
+
+    element.some(function(obj) {
+      var all_match = true;
+      for (var prop in props) {
+        if (!(prop in obj) || obj[prop] !== props[prop]) {
+          all_match = false;
+        }
+      }
+      if (all_match) {
+        if (multiple) {
+          match.push(obj);
+        }
+        else {
+          match = obj;
+          return true;
+        }
+      }
+    });
+
+    return match;
+  };
 
   var _ = function(element) {
     u = {
@@ -73,6 +96,12 @@ Object methods to create:
           qty--;
         }
         return sampled;
+      },
+      findWhere: function(props) {
+        return findObjs(element, props, false);
+      },
+      where: function(props) {
+        return findObjs(element, props, true);
       }
     };
 
