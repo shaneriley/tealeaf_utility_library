@@ -175,7 +175,7 @@
     return typeof obj == 'function'
   };
   _.isBoolean = function(obj) {
-    return obj === true || obj === false || toString.call(obj) === '[object Boolean]';
+    return obj === true || obj === false || Object.prototype.toString.call(obj) === '[object Boolean]';
   };
   _.isString = function(obj) {
     return Object.prototype.toString.call(obj) === "[object String]";
