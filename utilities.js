@@ -1,20 +1,3 @@
-/*
-Object methods to create:
-* keys
-* values
-* extend
-* pick
-* omit
-* has
-* isElement
-* isArray
-* isObject
-* isFunction
-* isString
-* isNumber
-* isBoolean
-*/
-
 (function() {
   var findObjs = function(element, props, multiple) {
     var match = multiple ? [] : undefined;
@@ -109,8 +92,48 @@ Object methods to create:
         }
 
         return keys;
+      },
+      values: function() {
+        var vals = [];
+
+        for (var prop in element) {
+          vals.push(element[prop]);
+        }
+
+        return vals;
+      },
+      pick: function() {
+        var args = [].slice.call(arguments),
+            new_obj = {};
+
+        args.forEach(function(prop) {
+          if (prop in element) {
+            new_obj[prop] = element[prop];
+          }
+        });
+
+        return new_obj;
+      },
+      omit: function() {
+        var args = [].slice.call(arguments),
+            new_obj = {};
+
+        for (var prop in element) {
+          if (args.indexOf(prop) === -1) {
+            new_obj[prop] = element[prop];
+          }
+        };
+
+        return new_obj;
+      },
+      has: function(prop) {
+        return {}.hasOwnProperty.call(element, prop);
       }
     };
+
+    (["isElement", "isArray", "isObject", "isFunction", "isBoolean", "isString", "isNumber"]).forEach(function(method) {
+      u[method] = function() { _[method].call(u, element); };
+    });
 
     return u;
   };
@@ -126,6 +149,39 @@ Object methods to create:
       a.push(i);
     }
     return a;
+  };
+  _.extend = function() {
+    var args = [].slice.call(arguments),
+        old_obj = args.pop(),
+        new_obj = args[args.length - 1];
+
+    for (var prop in old_obj) {
+      new_obj[prop] = old_obj[prop];
+    }
+    return args.length === 1 ? new_obj : _.extend.apply(_, args);
+  };
+  _.isElement = function(obj) {
+    return !!(obj && obj.nodeType === 1);
+  };
+  _.isArray = Array.isArray || function(obj) {
+    return toString.call(obj) === '[object Array]';
+  };
+  _.isObject = function(obj) {
+    var type = typeof obj;
+
+    return type === 'function' || type === 'object' && !!obj;
+  };
+  _.isFunction = function(obj) {
+    return typeof obj == 'function'
+  };
+  _.isBoolean = function(obj) {
+    return obj === true || obj === false || toString.call(obj) === '[object Boolean]';
+  };
+  _.isString = function(obj) {
+    return Object.prototype.toString.call(obj) === "[object String]";
+  };
+  _.isNumber = function(obj) {
+    return Object.prototype.toString.call(obj) === "[object Number]";
   };
 
   window._ = _;
