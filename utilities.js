@@ -1,16 +1,5 @@
 /*
-Array methods to create:
-* first
-* last
-* without
-* range
-* lastIndexOf
-* sample
-
 Object methods to create:
-* findWhere
-* where
-* pluck
 * keys
 * values
 * extend
@@ -102,6 +91,24 @@ Object methods to create:
       },
       where: function(props) {
         return findObjs(element, props, true);
+      },
+      pluck: function(query) {
+        var vals = [];
+
+        element.forEach(function(obj) {
+          obj[query] && vals.push(obj[query]);
+        });
+
+        return vals;
+      },
+      keys: function() {
+        var keys = [];
+
+        for (var prop in element) {
+          keys.push(prop);
+        }
+
+        return keys;
       }
     };
 

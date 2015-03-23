@@ -75,3 +75,23 @@ test("where is defined", typeof _().where === "function");
   test("where returns an array with one matched object", _(dict).where({ idx: 0 }).length === 1);
   test("where returns an array with two matched objects", _(dict).where({ foo: "bar" }).length === 2);
 })();
+
+// _.pluck
+test("pluck is defined", typeof _().pluck === "function");
+(function() {
+  var coll = [{ foo: "bar" }, { foo: "baz" }],
+      pluck = _(coll).pluck("foo");
+
+  test("pluck returns array of two values", pluck.length === 2);
+  test("pluck returns both values", pluck[0] === "bar" && pluck[1] === "baz");
+})();
+
+// _.keys
+test("keys is defined", typeof _().keys === "function");
+(function() {
+  var keys = _({ foo: "bar", baz: "quuz" }).keys();
+
+  test("keys returns an array of keys from the object", keys.length === 2);
+  test("keys returns all keys that are own properties of the object", keys.indexOf("foo") !== -1 && keys.indexOf("baz") !== -1);
+  test("keys does not return inherited object properties", keys.indexOf("toString") === -1);
+})();
